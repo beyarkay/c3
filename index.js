@@ -29,11 +29,15 @@ async function run() {
       events = [];
       for (const event of doc['events']) {
         core.info(`Parsing event: ${JSON.stringify(event)}`);
+        if (!(event['start'] instanceof Date)) {
+          core.setFailed(`FAIL: event['start'] is '${event['start']} which is not a date.'`);
+          return;
+        }
         events.push({
           title: event['title'] ?? 'Untitled event',
           description: event['description'] ?? '',
-          start: isoStringToDateList(event['start']),
-          end: isoStringToDateList(event['end']),
+          start: isoStringToDateList(event['start'].toISOString()),
+          end: isoStringToDateList(event['end'].toISOString()),
         });
       }
 
@@ -58,6 +62,7 @@ function isoStringToDateList(s) {
   // Create a date 'list' in the format expected by
   // https://github.com/adamgibbons/ics:
   // [year, month, date, hours, minutes, seconds]
+  core.info(s);
   return s.split(/\D+/).map(d => Number(d)).slice(0, 6);
 }
 
