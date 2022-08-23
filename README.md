@@ -1,116 +1,97 @@
-# Create a JavaScript Action
+# Custom calendar creator
 
-<p align="center">
-  <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
-</p>
+#### Convert APIs to internet calendars with ease
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+## Using this action
 
-This template includes tests, linting, a validation workflow, publishing, and versioning guidance.
+Copy paste this code into the file `.github/workflows/create-calendars.yaml`
+and then every time you push a change to `create-calendars.py` it will run and
+update the calendars. Or alternatively you can trigger it manually.
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
 
-## Create an action from this template
+```yaml
+# The name of this workflow
+name: My Cool Calendar Creator
 
-Click the `Use this Template` and provide the new repo details for your action
+# When a push is received to branch `main` that changes `create-calendars.py`,
+# run the workflow. Also allow the workflow to be run manually.
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'create-calendars.py'
+  workflow_dispatch:
 
-## Code in Main
+jobs:
+  create-calendars:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-Install the dependencies
+    - name: Install pip requirements
+      uses: BSFishy/pip-action@v1
+      with:
+        requirements: requirements.txt
 
-```bash
+    - name: Create Cool Calendars
+      uses: beyarkay/c3@main
+      with:
+        glob: "calendars/*.yaml"
+```
+
+
+And copy this code to the file `create-calendars.py`
+```py
+from datetime import datetime, timedelta
+import yaml
+import os
+
+
+def main():
+    # A list of events to create
+    events = [
+        {
+            "summary": "An event with a start and finish",
+            "description": "This event has a start and finish time.",
+            "start": datetime.now(),
+            "finsh": datetime.now() + timedelta(hours=3),
+        },
+    ]
+    # Create a directory to contain our calendars
+    os.makedirs("calendars", exist_ok=True)
+    # Write the events list as yaml files into the calendars directory
+    with open('calendars/simple-calendar.yaml', 'w') as file:
+        yaml.dump(events, file)
+
+if __name__ == "__main__":
+    main()
+```
+
+
+
+## Building the action from source
+
+1. Download and setup the repository:
+
+```
+git clone https://github.com/beyarkay/c3.git
+cd c3
 npm install
+npm test
 ```
 
-Run the tests :heavy_check_mark:
+2. Package and prepare the code
 
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-...
 ```
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-const core = require('@actions/core');
-...
-
-async function run() {
-  try {
-      ...
-  }
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Package for distribution
-
-GitHub Actions will run the entry point from the action.yml. Packaging assembles the code into one file that can be checked in to Git, enabling fast and reliable execution and preventing the need to check in node_modules.
-
-Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
-
-Run prepare
-
-```bash
 npm run prepare
 ```
 
-Since the packaged index.js is run from the dist folder.
+3. Publish the changes as a new release
 
-```bash
+```
 git add dist
-```
-
-## Create a release branch
-
-Users shouldn't consume the action from master since that would be latest code and actions can break compatibility between major versions.
-
-Checkin to the v1 release branch
-
-```bash
 git checkout -b v1
-git commit -a -m "v1 release"
-```
-
-```bash
+git commit -v
 git push origin v1
 ```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket:
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Usage
-
-You can now consume the action by referencing the v1 branch
-
-```yaml
-uses: actions/javascript-action@v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:
