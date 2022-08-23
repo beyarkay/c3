@@ -28,11 +28,12 @@ async function run() {
       core.info(`Iterating over the ${doc['events'].length} event(s) found in ${path}`);
       events = [];
       for (const event of doc['events']) {
+        core.info(`Parsing event: ${JSON.stringify(event)}`);
         events.push({
           title: event['title'] ?? 'Untitled event',
           description: event['description'] ?? '',
-          start: event['start'],
-          end: event['end'],
+          start: isoStringToDateList(event['start']),
+          end: isoStringToDateList(event['end']),
         });
       }
 
@@ -51,6 +52,13 @@ async function run() {
   } catch (error) {
     core.setFailed(error.message);
   }
+}
+
+async function isoStringToDateList(s) {
+  // Create a date 'list' in the format expected by
+  // https://github.com/adamgibbons/ics:
+  // [year, month, date, hour, minute]
+  return s.split(/\D+/);
 }
 
 run();
