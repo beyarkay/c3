@@ -5,6 +5,9 @@ inputs:
     description: 'JS-compliant glob to list all calendar yaml files. Defaults to `calendars/*.yaml`.'
     required: false
     default: 'calendars/*.yaml'
+outputs:
+  file-paths:
+    description: "A comma-separated list of paths to the generated ics files"
 runs:
   using: 'node16'
   main: 'dist/index.js'
