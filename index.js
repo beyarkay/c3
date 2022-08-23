@@ -25,7 +25,7 @@ async function run() {
         return;
       }
       
-      core.info(`Iterating over the ${doc['events'].length} events found in ${path}`);
+      core.info(`Iterating over the ${doc['events'].length} event(s) found in ${path}`);
       events = [];
       for (const event of doc['events']) {
         events.push({
@@ -39,13 +39,13 @@ async function run() {
       core.info(`Creating calendar from events found in ${path}`);
       const { error, calendar } = ics.createEvents(events);
       if (error) {
-        core.setFailed(`FAIL: Couldn't create ICS from events found in ${path}. Error message from dependency [ics](https://www.npmjs.com/package/ics): ${error}`)
+        core.setFailed(`FAIL: Couldn't create .ics file from events found in ${path}. Error message from dependency [ics](https://www.npmjs.com/package/ics): ${error}`)
         return
       }
       ics_path = path.replace(".yaml", ".ics");
       core.info(`Saving calendar to disc at ${ics_path}`);
       writeFileSync(ics_path, calendar);
-      core.info(`Wrote calendar to ${ics_path}:\n${calendar}`);
+      core.info(`Wrote calendar to ${ics_path}:\n${JSON.stringify(calendar)}`);
     }
     core.info(`Ending script at ${(new Date()).toTimeString()}`);
   } catch (error) {
