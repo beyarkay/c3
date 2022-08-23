@@ -18625,7 +18625,7 @@ async function run() {
         }
         events.push({
           title: event['title'] ?? 'Untitled event',
-          description: event['description'] ?? '',
+          description: (event['description'] + "\nThis event was created by c3: https://github.com/beyarkay/c3") ?? '',
           start: isoStringToDateList(event['start'].toISOString()),
           end: isoStringToDateList(event['end'].toISOString()),
         });
