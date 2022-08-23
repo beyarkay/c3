@@ -54,11 +54,11 @@ async function run() {
   }
 }
 
-async function isoStringToDateList(s) {
+function isoStringToDateList(s) {
   // Create a date 'list' in the format expected by
   // https://github.com/adamgibbons/ics:
-  // [year, month, date, hour, minute]
-  return s.split(/\D+/);
+  // [year, month, date, hours, minutes, seconds]
+  return s.split(/\D+/).map(d => Number(d)).slice(0, 6);
 }
 
 run();
