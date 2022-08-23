@@ -1,0 +1,10 @@
+name: 'Custom calendar creator - c3'
+description: 'Convert APIs to internet calendars with ease'
+inputs:
+  glob:
+    description: 'JS-compliant glob to list all calendar yaml files. Defaults to `calendars/*.yaml`.'
+    required: false
+    default: 'calendars/*.yaml'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
