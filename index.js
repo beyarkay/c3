@@ -1,18 +1,22 @@
 const core = require('@actions/core');
-const wait = require('./wait');
+const glob = require('@actions/glob');
 
-
-// most @actions toolkit packages have async methods
 async function run() {
   try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
-
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
+    core.info(`Starting script`);
     core.info((new Date()).toTimeString());
 
-    core.setOutput('time', new Date().toTimeString());
+    const glob = core.getInput('glob');
+    core.info(`Glob is: ${glob}`);
+
+    // See: https://github.com/actions/toolkit/tree/main/packages/glob#patterns    
+    const globber = await glob.create(glob)
+    const files = await globber.glob()
+
+    core.info(`Files are ${files}`);
+
+    core.info((new Date()).toTimeString());
+    core.info(`Ending script`);
   } catch (error) {
     core.setFailed(error.message);
   }
