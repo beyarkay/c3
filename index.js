@@ -32,15 +32,17 @@ async function run() {
       for (const event of doc['events']) {
         console.log(`::group::Event ${event['title']}`);
         core.info(`Parsing event: ${JSON.stringify(event)}`);
-        if (!(event['start'] instanceof Date)) {
-          core.setFailed(`FAIL: event['start'] is '${event['start']} which is not a date.'`);
-          return;
+        if (event['start'] instanceof Date) {
+          event['start'] = event['start'].toISOString()
+        }
+        if (event['end'] instanceof Date) {
+          event['end'] = event['end'].toISOString()
         }
         events.push({
           title: event['title'] ?? 'Untitled event',
           description: (event['description'] + "\nThis event was created by c3: https://github.com/beyarkay/c3") ?? '',
-          start: isoStringToDateList(event['start'].toISOString()),
-          end: isoStringToDateList(event['end'].toISOString()),
+          start: isoStringToDateList(event['start']),
+          end: isoStringToDateList(event['end']),
         });
         console.log(`::endgroup::`);
       }
