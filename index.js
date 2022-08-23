@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const glob = require('@actions/glob');
 const ics = require('ics')
 const yaml = require('js-yaml');
-const fs   = require('fs');
+const fs = require('fs');
 
 async function run() {
   try {
@@ -49,7 +49,7 @@ async function run() {
       }
       ics_path = path.replace(".yaml", ".ics");
       core.info(`Saving calendar to disc at ${ics_path}`);
-      writeFileSync(ics_path, calendar);
+      fs.writeFileSync(ics_path, calendar);
       core.info(`Wrote calendar to ${ics_path}:\n${calendar}`);
     }
     core.info(`Ending script at ${(new Date()).toTimeString()}`);

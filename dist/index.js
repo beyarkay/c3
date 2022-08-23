@@ -18589,7 +18589,7 @@ const core = __nccwpck_require__(2186);
 const glob = __nccwpck_require__(8090);
 const ics = __nccwpck_require__(6532)
 const yaml = __nccwpck_require__(1917);
-const fs   = __nccwpck_require__(5747);
+const fs = __nccwpck_require__(5747);
 
 async function run() {
   try {
@@ -18636,7 +18636,7 @@ async function run() {
       }
       ics_path = path.replace(".yaml", ".ics");
       core.info(`Saving calendar to disc at ${ics_path}`);
-      writeFileSync(ics_path, calendar);
+      fs.writeFileSync(ics_path, calendar);
       core.info(`Wrote calendar to ${ics_path}:\n${calendar}`);
     }
     core.info(`Ending script at ${(new Date()).toTimeString()}`);
