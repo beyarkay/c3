@@ -1,5 +1,9 @@
-name: 'Custom calendar creator - c3'
+name: 'c3 - Custom Calendar Creator'
+author: 'Boyd Kane @beyarkay'
 description: 'Convert APIs to internet calendars with ease'
+branding:
+  icon: 'calendar'  
+  color: 'orange'
 inputs:
   glob:
     description: 'JS-compliant glob to list all calendar yaml files. Defaults to `calendars/*.yaml`.'
