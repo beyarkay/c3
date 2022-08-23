@@ -18628,16 +18628,17 @@ async function run() {
         });
       }
 
-      core.info(`Creating calendar from events found in ${path}`);
+      core.info(`Creating calendar from events found in ${path}: ${JSON.stringify(events)}`);
       const { error, calendar } = ics.createEvents(events);
+      core.info(`Error: ${JSON.stringify(error)}, calendar: ${JSON.stringify(calendar)}`);
       if (error) {
         core.setFailed(`FAIL: Couldn't create .ics file from events found in ${path}. Error message from dependency [ics](https://www.npmjs.com/package/ics): ${JSON.stringify(error)}`);
         return
       }
       ics_path = path.replace(".yaml", ".ics");
-      core.info(`Saving calendar to disc at ${ics_path}`);
+      core.info(`Saving calendar to ${ics_path}:\n${calendar}`);
       fs.writeFileSync(ics_path, calendar);
-      core.info(`Wrote calendar to ${ics_path}:\n${calendar}`);
+      core.info(`Wrote calendar to ${ics_path}`);
     }
     core.info(`Ending script at ${(new Date()).toTimeString()}`);
   } catch (error) {
@@ -18649,7 +18650,6 @@ function isoStringToDateList(s) {
   // Create a date 'list' in the format expected by
   // https://github.com/adamgibbons/ics:
   // [year, month, date, hours, minutes, seconds]
-  core.info(s);
   return s.split(/\D+/).map(d => Number(d)).slice(0, 6);
 }
 
