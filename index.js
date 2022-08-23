@@ -59,7 +59,7 @@ async function run() {
       console.log("::endgroup::");
     }
     let ics_paths_str = ics_paths.join(',')
-    console.log('::set-output name=file-paths::ics_paths_str');
+    console.log(`::set-output name=file-paths::${ics_paths_str}`);
     core.info(`Ending script at ${(new Date()).toTimeString()}`);
   } catch (error) {
     core.setFailed(error.message);
