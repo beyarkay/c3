@@ -1,6 +1,6 @@
-name: 'c3'
+name: 'c3-custom-calendar-creator'
 author: 'Boyd Kane @beyarkay'
-description: 'Custom Calendar Creator: Convert APIs to internet calendars with ease'
+description: 'c3: Convert APIs to internet calendars with ease'
 branding:
   icon: 'calendar'  
   color: 'orange'
