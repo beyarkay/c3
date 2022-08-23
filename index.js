@@ -6,11 +6,11 @@ async function run() {
     core.info(`Starting script`);
     core.info((new Date()).toTimeString());
 
-    const glob = core.getInput('glob');
-    core.info(`Glob is: ${glob}`);
+    const glob_string = core.getInput('glob');
+    core.info(`Glob is: ${glob_string}`);
 
     // See: https://github.com/actions/toolkit/tree/main/packages/glob#patterns    
-    const globber = await glob.create(glob)
+    const globber = await glob.create(glob_string)
     const files = await globber.glob()
 
     core.info(`Files are ${files}`);
