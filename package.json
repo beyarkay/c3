@@ -27,7 +27,7 @@
   "dependencies": {
     "@actions/core": "^1.2.5",
     "@actions/glob": "^0.3.0",
-    "ics": "^2.37.0",
+    "ics": "^3.1.0",
     "js-yaml": "^4.1.0",
     "test": "^3.2.1"
   },
